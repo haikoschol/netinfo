@@ -1,35 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ STATIC_URL}}bootstrap.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
     <title>Netinfo - Dashboard</title>
   </head>
   <body>
-    <h1>Netinfo - Dashboard</h1>
-    <p>Available network interfaces:</p>
+    <header class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="brand">Network Information</div>
+          <ul class="nav">
+            <li><a href="/">Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="well">
+        <h2>Network Interfaces</h2>
+      </div>
       {% for iface in interfaces %}
-      <p>
-        <h2>{{ iface.name }}</h2>
-        <ul>
-          <li>Type: {{ iface.type }}</li>
-          <li>State: {{ iface.state }}</li>
+        <div class="well">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>{{ iface.name }}</td>
+              </tr>
+              <tr>
+                <td>Type</td>
+                <td>{{ iface.type }}</td>
+              </tr>
+              <tr>
+                <td>State</td>
+                <td>{{ iface.state }}</td>
+              </tr>
+              {% if iface.state == 'activated' %}
+                <tr>
+                {% if iface.ip4_addresses|length > 1 %}
+                  <td>IPv4 Addresses</td>
+                  <td>{{ iface.ip4_addresses|join:', ' }}</td>
+                {% elif iface.ip4_addresses|length > 0 %}
+                  <td>IPv4 Address</td>
+                  <td>{{ iface.ip4_addresses.0 }}</td>
+                {% endif %}
 
-          {% if iface.state == 'activated' %}
-
-            {% if iface.ip4_addresses|length > 1 %}
-              <li>IPv4 Addresses: {{ iface.ip4_addresses|join:', ' }}</li>
-            {% elif iface.ip4_addresses|length > 0 %}
-              <li>IPv4 Address: {{ iface.ip4_addresses.0 }}</li>
+                {% if iface.ip6_addresses|length > 1 %}
+                  <td>IPv6 Addresses</td>
+                  <td>{{ iface.ip6_addresses|join:', ' }}</td>
+                {% elif iface.ip6_addresses|length > 0 %}
+                  <td>IPv6 Address</td>
+                  <td>{{ iface.ip6_addresses.0 }}</td>
+                {% endif %}
+                </tr>
             {% endif %}
-
-            {% if iface.ip6_addresses|length > 1 %}
-              <li>IPv6 Addresses: {{ iface.ip6_addresses|join:', ' }}</li>
-            {% elif iface.ip6_addresses|length > 0 %}
-              <li>IPv6 Address: {{ iface.ip6_addresses.0 }}</li>
-            {% endif %}
-
-          {% endif %}
-        </ul>
-      </p>
+            </tbody>
+          </table>
+        </div>
       {% endfor %}
+    </div>
   </body>
 </html>
