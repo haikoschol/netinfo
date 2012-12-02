@@ -40,6 +40,18 @@
                 <td>State</td>
                 <td>{{ iface.state }}</td>
               </tr>
+
+              {% if iface.type == 'wifi' %}
+              <tr>
+                <td>SSID</td>
+                <td>{{ ssid }}</td>
+              </tr>
+              <tr>
+                <td>Available Wireless Networks</td>
+                <td><div id="ssids"></div><a href="#" class="btn">Scan</a></td>
+              </tr>
+              {% endif %}
+
               {% if iface.state == 'activated' %}
                 <tr>
                 {% if iface.ip4_addresses|length > 1 %}

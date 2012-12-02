@@ -10,15 +10,44 @@ to be unicode instances.
 import socket
 import struct
 
-from gi.repository import NMClient
+from gi.repository import NetworkManager, NMClient
 
-def get_interfaces():
-    """
-    Return a list of dicts with information about all network interfaces on the host.
-    """
-    nmc = NMClient.Client.new()
-    devices = nmc.get_devices()
-    return [format_device_info(d) for d in devices]
+class NetworkInformation(object):
+
+    def __init__(self):
+        self.nmc = NMClient.Client.new()
+        self.devices = self.nmc.get_devices()
+
+    def get_interfaces(self):
+        """
+        Return a list of dicts with information about all network interfaces on the host.
+        """
+        return [format_device_info(d) for d in self.devices]
+
+    def get_current_wifi_ssid(self):
+        """
+        Return the SSID of the wireless network that this host is currently connected to.
+        """
+        for dev in self.devices:
+            if dev.get_device_type() == NetworkManager.DeviceType.WIFI:
+                active_ap = dev.get_active_access_point()
+                if active_ap:
+                    return active_ap.get_ssid().decode('utf-8')
+
+        return u''
+
+    def get_visible_wifi_ssids(self):
+        """
+        Return a list of SSIDs of all currently visible wireless networks.
+        """
+        ssids = []
+
+        for dev in self.devices:
+            if dev.get_device_type() == NetworkManager.DeviceType.WIFI:
+                for ap in dev.get_access_points():
+                    ssids.append(ap.get_ssid().decode('utf-8'))
+
+        return ssids
 
 
 def format_device_info(device):
