@@ -6,10 +6,30 @@
   <body>
     <h1>Netinfo - Dashboard</h1>
     <p>Available network interfaces:</p>
-    <ul>
       {% for iface in interfaces %}
-        <li>{{ iface.name }}</li>
+      <p>
+        <h2>{{ iface.name }}</h2>
+        <ul>
+          <li>Type: {{ iface.type }}</li>
+          <li>State: {{ iface.state }}</li>
+
+          {% if iface.state == 'activated' %}
+
+            {% if iface.ip4_addresses|length > 1 %}
+              <li>IPv4 Addresses: {{ iface.ip4_addresses|join:', ' }}</li>
+            {% elif iface.ip4_addresses|length > 0 %}
+              <li>IPv4 Address: {{ iface.ip4_addresses.0 }}</li>
+            {% endif %}
+
+            {% if iface.ip6_addresses|length > 1 %}
+              <li>IPv6 Addresses: {{ iface.ip6_addresses|join:', ' }}</li>
+            {% elif iface.ip6_addresses|length > 0 %}
+              <li>IPv6 Address: {{ iface.ip6_addresses.0 }}</li>
+            {% endif %}
+
+          {% endif %}
+        </ul>
+      </p>
       {% endfor %}
-    </ul>
   </body>
 </html>
