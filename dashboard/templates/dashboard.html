@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Netinfo - Dashboard</title>
+  </head>
+  <body>
+    <h1>Netinfo - Dashboard</h1>
+    <p>Available network interfaces:</p>
+    <ul>
+      {% for iface in interfaces %}
+        <li>{{ iface.name }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
