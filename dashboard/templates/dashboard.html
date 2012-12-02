@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="{{ STATIC_URL}}bootstrap.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap.css">
     <style type="text/css">
       body {
         padding-top: 60px;
       }
     </style>
+    <script src="{{ STATIC_URL }}jquery-1.8.3.min.js"></script>
+    <script src="{{ STATIC_URL }}dashboard.js"></script>
     <title>Netinfo - Dashboard</title>
   </head>
   <body>
@@ -48,7 +50,7 @@
               </tr>
               <tr>
                 <td>Available Wireless Networks</td>
-                <td><div id="ssids"></div><a href="#" class="btn">Scan</a></td>
+                <td><div id="ssids"></div><a href="#" id="scan_button" class="btn">Scan</a></td>
               </tr>
               {% endif %}
 
