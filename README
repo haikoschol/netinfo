@@ -1,0 +1,4 @@
+PoC for showing wifi and bluetooth data in a web app
+
+works on ubuntu, uses django, dbus, gevent, websockets and twitter bootstrap
+
